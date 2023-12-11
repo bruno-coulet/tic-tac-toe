@@ -3,23 +3,24 @@ pygame.init()                                       # Pygame setup
 font = pygame.font.Font(None, 24)
 WIDTH, HEIGHT = 600, 600                            # dimensions
 GRID_SIZE = 3                                       # éléments de la grille
-LINE_COLOR = (200, 10, 10)                          # éléments de la grille
-LINE_WIDTH = 15                                     # éléments de la grille
+LINE_COLOR = (200, 0, 0)                          # éléments de la grille
+LINE_WIDTH = 30                                     # éléments de la grille
 screen = pygame.display.set_mode((WIDTH, HEIGHT))   # affiche la fenêtre de jeux
 pygame.display.set_caption("Morpion")               # titre de la fenêtre de jeux
 clock = pygame.time.Clock()                         # système d'horloge
-fond = pygame.image.load('fond.jpg')                # image de fond
+fond_big = pygame.image.load('fond.jpg')                # image de fond
+fond = pygame.transform.scale(fond_big, (600, 600))
 background_rect = fond.get_rect()                   # fond gris semi transparent fin de partie
 winner = None
 game_over = False
 waiting_for_click = False
 
 def draw_cross(position):                           # ajuste les coordonnées de départ et d'arrêt des lignes pour centrer sur le point de croisement des lignes.
-    line1_start = (position[0] - 75, position[1] -75)
-    line1_end = (position[0] + 75, position[1] + 75)
-    line2_start = (position[0] - 75, position[1] + 75)
-    line2_end = (position[0] + 75, position[1] -75)
-    line_thickness = 25
+    line1_start = (position[0] - 70, position[1] -70)
+    line1_end = (position[0] + 70, position[1] + 70)
+    line2_start = (position[0] - 70, position[1] + 70)
+    line2_end = (position[0] + 70, position[1] -70)
+    line_thickness = 35
     for line in [
         {'color': (70, 200, 70), 'start': line1_start, 'end': line1_end, 'thickness': line_thickness},
         {'color': (70, 200, 70), 'start': line2_start, 'end': line2_end, 'thickness': line_thickness}
@@ -27,7 +28,7 @@ def draw_cross(position):                           # ajuste les coordonnées de
         pygame.draw.line(screen, line['color'], line['start'], line['end'], line['thickness'])
 
 def draw_round(center):                              # circle(surface, color, center, radius, épaisseur)
-    pygame.draw.circle(screen, (50,50,230), (center), 80, 20)
+    pygame.draw.circle(screen, (50,50,230), (center), 80, 35)
 
 def draw_grid():                                    # dessine la grille
     for i in range(1, GRID_SIZE):                                                                                           # Lignes horizontales  
@@ -101,7 +102,7 @@ symbols = [{'symbol': '', 'position':  (case[0][0] + case[1] // 2,   case[0][1] 
 current_player = 'x'
 
 run = True
-while run and winner is None:                            # pygame.event.get() renvoie un tableau avec tous les événements en cours
+while run:                            # pygame.event.get() renvoie un tableau avec tous les événements en cours
     for event in pygame.event.get():  # ces événements vont dans l'objet "event"
         if event.type == pygame.QUIT: # clic sur X 
             run = False               # pour fermer la fenêtre
@@ -127,7 +128,7 @@ while run and winner is None:                            # pygame.event.get() re
     pygame.display.flip()                           # Affiche tout ce qui doit être affiché (est nécessaire à partir du moment on dessine quelque chose)
     winner = check_winner(symbols)                         # Vérifiez si un joueur gagne
 
-    if winner:                                          # Afficher le message du gagnant après la boucle principale
+    if winner  or all(symbol['symbol'] != '' for symbol in symbols):                                          # Afficher le message du gagnant après la boucle principale
         game_over = True
 
         if winner == 'nul':
@@ -146,8 +147,8 @@ while run and winner is None:                            # pygame.event.get() re
                     waiting_for_click = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     reset_game()
-                    game_over = False
                     waiting_for_click = False
+                    game_over = False
 
     #  time.sleep(3)                                    # Ajout d'une pause de 3 secondes avant de quitter
 
