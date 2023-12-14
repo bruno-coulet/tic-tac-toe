@@ -55,6 +55,15 @@ signes = [{ 'signe': '',    'position':  (case[0][0] + case[1] //2, case[0][1] +
 
 #----------------------     FONCTIONS DU MENU   ----------------------------------------------
 
+def fond_jeu():
+    background_rect = fond.get_rect()                   # fond gris semi transparent
+    screen.blit(fond, background_rect)                  # Afficher l'image de fond    
+    draw_grid()                                         # dessine la grille
+    background_color = (50, 50, 50, 220)                # défini une couleur de fond semi-transparente (RGBA)
+    background_surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)   # défini une surface pour le fond semi-transparent
+    background_surface.fill(background_color)           # attribue la couleur à la surface
+    screen.blit(background_surface, (0, 0))             # Dessine la surface     
+
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, 1, color)
     textrect = textobj.get_rect()
@@ -64,16 +73,8 @@ def draw_text(text, font, color, surface, x, y):
 def main_menu():
     while True:
         pygame.display.flip()
-        background_rect = fond.get_rect()                   # fond gris semi transparent
-        screen.blit(fond, background_rect)                  # Afficher l'image de fond    
-        draw_grid()                                         # dessine la grille
-        background_color = (50, 50, 50, 220)                # défini une couleur de fond semi-transparente (RGBA)
-        background_surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)   # défini une surface pour le fond semi-transparent
-        background_surface.fill(background_color)           # attribue la couleur à la surface
-        screen.blit(background_surface, (0, 0))             # Dessine la surface                                                      # Dessine la grille
-
+        fond_jeu()
         draw_text('JEU DE MORPION', pygame.font.Font(None, 80), (240,240,240), screen, 50,170)    # affiche un text blanc
-
         mx, my = pygame.mouse.get_pos()
         button_1 = pygame.Rect(200,270,200,80)
         button_2 = pygame.Rect(200,430,200,80)
@@ -116,7 +117,7 @@ def work_in_progress():
     running = True
     while running:
         pygame.display.flip()
-        screen.fill((0,0,0))                                    # fond noir
+        fond_jeu()
         draw_text("L'IA n'est pas finie,", font, (255,255,255), screen, 150,150)
         draw_text("revenez plus tard",font, (255,255,255), screen, 150,200)
 
