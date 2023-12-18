@@ -12,7 +12,7 @@ fond = pygame.transform.scale(fond_big, (600, 600)) # mise à l'echelle de l'ima
 
 
 #----------------------     VARIABLES du MENU  -----------------------------------------------
-click = False
+# click = False
 button_font = pygame.font.Font(None, 50)            # police et des messages
 title_font = pygame.font.Font(None, 80)
 subtitle_font = pygame.font.Font(None, 50)
@@ -74,100 +74,79 @@ def draw_text(text, font, color, surface, x, y):
 
 def menu_principal():                                             # Première fonction appelée
     click = False
-    while True:          
-        fond_menu()                                                     # affiche le fond
-        draw_text('JEU DE MORPION', title_font, (240,240,240), screen, 50,170)  # affiche un texte blanc
-        
-        mx, my = pygame.mouse.get_pos()                                 # position de la souris
-        
-        button_1_joueur = pygame.Rect(200,270,200,80)                   # bouton 1
-        button_2_joueurs = pygame.Rect(200,430,200,80)                  # bouton 2
-        
-        if button_1_joueur.collidepoint( (mx,my)):                      # si bouton 1 et la souris coincident
-            pygame.draw.rect(screen, hover_color, button_1_joueur)      # dessine le bouton couleur survol
-            if click:                                                   # click sur bouton 1
-                menu_1_joueur()                                         # appel la fonction menu_1_joueur
-        else: pygame.draw.rect(screen, normal_color, button_1_joueur)   # sinon dessine le bouton couleur normale
- 
-        if button_2_joueurs.collidepoint((mx,my)):                      # si bouton 2 et la souris coincident
-            pygame.draw.rect(screen, hover_color, button_2_joueurs)     # dessine le bouton couleur survol
-            if click:                                                   # click sur bouton 2                                                                                                           
-                deux_joueurs()                                          # appel la fonction deux_joueurs()                                   
-        else: pygame.draw.rect(screen, normal_color, button_2_joueurs)  # sinon dessine le bouton couleur normale
+    # while True:          
+    fond_menu()                                                     # affiche le fond
+    draw_text('JEU DE MORPION', title_font, (240,240,240), screen, 50,170)  # affiche un texte blanc
+    
+    # mx, my = pygame.mouse.get_pos()                                 # position de la souris
+    
+    button_1_joueur = pygame.Rect(200,270,200,80)                   # bouton 1
+    button_2_joueurs = pygame.Rect(200,430,200,80)                  # bouton 2
+    
+    if button_1_joueur.collidepoint( (mx,my)):                      # si bouton 1 et la souris coincident
+        pygame.draw.rect(screen, hover_color, button_1_joueur)      # dessine le bouton couleur survol
+        if click:                                                   # click sur bouton 1
+            menu_1_joueur()                                         # appel la fonction menu_1_joueur
+    else: pygame.draw.rect(screen, normal_color, button_1_joueur)   # sinon dessine le bouton couleur normale
+
+    if button_2_joueurs.collidepoint((mx,my)):                      # si bouton 2 et la souris coincident
+        pygame.draw.rect(screen, hover_color, button_2_joueurs)     # dessine le bouton couleur survol
+        if click:                                                   # click sur bouton 2                                                                                                           
+            deux_joueurs()                                          # appel la fonction deux_joueurs()                                   
+    else: pygame.draw.rect(screen, normal_color, button_2_joueurs)  # sinon dessine le bouton couleur normale
 
 
-        draw_text('1 joueur', button_font, (255, 255, 255), screen, 220, 295)  # affiche le texte du bouton 1
-        draw_text('2 joueurs', button_font, (255, 255, 255), screen, 220, 455) # affiche le texte du bouton 2
+    draw_text('1 joueur', button_font, (255, 255, 255), screen, 220, 295)  # affiche le texte du bouton 1
+    draw_text('2 joueurs', button_font, (255, 255, 255), screen, 220, 455) # affiche le texte du bouton 2
 
-        for event in pygame.event.get():                                # pour fermer de la fenêtre                           
-            if event.type == pygame.QUIT:                                   
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
-        pygame.display.update()
-        pygame.display.flip()
+    pygame.display.update()
+    pygame.display.flip()
 
 def menu_1_joueur():              
     click = False
-    while True:
-        fond_menu()
-        mx, my = pygame.mouse.get_pos()
-        button_menu_principal = pygame.Rect(150,200,300,80)
-        button_facile = pygame.Rect(150,300,300,80)
-        button_difficile = pygame.Rect(150,400,300,80)
+    # while True:
+    fond_menu()
+    mx, my = pygame.mouse.get_pos()
+    button_menu_principal = pygame.Rect(150,200,300,80)
+    button_facile = pygame.Rect(150,300,300,80)
+    button_difficile = pygame.Rect(150,400,300,80)
 
-        if button_menu_principal.collidepoint((mx,my)):
-            pygame.draw.rect(screen, hover_color, button_menu_principal)
-            if click:     
-                                                      # click sur bouton "menu principal"
-                menu_principal()                                # Retour au menu_principal   
-        else:pygame.draw.rect(screen, normal_color, button_menu_principal)
+    if button_menu_principal.collidepoint((mx,my)):
+        pygame.draw.rect(screen, hover_color, button_menu_principal)
+        if click:     
+                                                    # click sur bouton "menu principal"
+            # menu_principal()                                # Retour au menu_principal
+            return  
+    else:pygame.draw.rect(screen, normal_color, button_menu_principal)
 
-        if button_facile.collidepoint((mx,my)):
-            pygame.draw.rect(screen, hover_color, button_facile) 
-            if click:
-                algo_facile()                                   # appel la fonction algo_facile()
+    if button_facile.collidepoint((mx,my)):
+        pygame.draw.rect(screen, hover_color, button_facile) 
+        if click:
+            algo_facile()                                   # appel la fonction algo_facile()
 
-        else: pygame.draw.rect(screen, normal_color, button_facile)
+    else: pygame.draw.rect(screen, normal_color, button_facile)
 
-        if button_difficile.collidepoint((mx,my)):
-            pygame.draw.rect(screen, hover_color, button_difficile) 
-            if click:                                           # click sur bouton 1
-                # return
-                algo_difficile()
-                                                                # Return to the main menu     
-        else:pygame.draw.rect(screen, normal_color, button_difficile)
+    if button_difficile.collidepoint((mx,my)):
+        pygame.draw.rect(screen, hover_color, button_difficile) 
+        if click:                                           # click sur bouton 1
+            # return
+            algo_difficile()
+                                                            # Return to the main menu     
+    else:pygame.draw.rect(screen, normal_color, button_difficile)
 
-        draw_text("Le mode 'difficile' n'est pas fini", subtitle_font, (255,255,255), screen, 40,100)
-        draw_text("Essayez le mode 'facile'!",subtitle_font, (255,255,255), screen, 100,140)
-        draw_text('Menu principal', button_font , (255,255,255), screen, 170, 230)
-        draw_text('Facile', button_font , (255,255,255), screen, 170, 330)
-        draw_text('Difficile - a finir', button_font , (255,255,255), screen, 170, 430)
+    draw_text("Le mode 'difficile' n'est pas fini", subtitle_font, (255,255,255), screen, 40,100)
+    draw_text("Essayez le mode 'facile'!",subtitle_font, (255,255,255), screen, 100,140)
+    draw_text('Menu principal', button_font , (255,255,255), screen, 170, 230)
+    draw_text('Facile', button_font , (255,255,255), screen, 170, 330)
+    draw_text('Difficile - a finir', button_font , (255,255,255), screen, 170, 430)
 
-        for event in pygame.event.get():                                    
-            if event.type == pygame.QUIT:                                   
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
-        pygame.display.update()
-        pygame.display.flip()
+    pygame.display.update()
+    pygame.display.flip()
 
 
 #----------------------     FONCTIONS  DU JEU  ----------------------------------------------
 
-def fond_jeu():              # affiche l'image de fond et la grille
+def fond_jeu():             # affiche l'image de fond et la grille
     background_rect = fond.get_rect()   # defini une surface à la taille de l'image ?
     screen.blit(fond, background_rect)  # affiche l'image de fond sur la surface  ? 
     for i in range(1, GRID_SIZE):       # dessine la grille                                                                                     # Lignes horizontales  
@@ -202,7 +181,7 @@ def draw_sign():            # dessine x ou o
         elif signe['signe'] == 'o':
             draw_round(signe['position'])
   
-def check_winner(cases):   # cherche 3 cases identiques alignés dans les lignes, colonnes et diagonales
+def check_winner(cases):    # cherche 3 cases identiques alignés dans les lignes, colonnes et diagonales
     # Vérification des lignes horizontales, retourne le signe
     for row in range(0, 9, 3):         # row = 0 ou 3 ou 6
         if cases[row]['signe'] == cases[row + 1]['signe'] == cases[row + 2]['signe'] != '': # non vide et identique
@@ -265,14 +244,15 @@ def end_game():             # cherche un gagnant -> message -> reset_cells
             if button_rejouer.collidepoint((mx,my)):
                 pygame.draw.rect(screen, hover_color, button_rejouer) 
                 if click:                                          
-                    menu_principal()
+                    # menu_principal()
+                    return
                     # run = False
                     print('click')  
             else:pygame.draw.rect(screen, normal_color, button_rejouer)
             draw_text('Cliquez pour rejouer', button_font , (255,255,255), screen, 120, 380)
             pygame.display.flip()
 
-def reset_cells():           # vide les cases pour la prochaine partie
+def reset_cells():          # vide les cases pour la prochaine partie
     global cases, current_player, game_over
     #                                   (      x    +  largeur/2  ,     y      +   hauteur/2 )
     cases = [{'signe': '', 'position': (case[0][0] + case[1] // 2, case[0][1] + case[2] // 2)} for case in board]
@@ -282,135 +262,121 @@ def reset_cells():           # vide les cases pour la prochaine partie
 def deux_joueurs():
     global run, game_over, current_player
 
-    while run:                                     # pygame.event.get() renvoie un tableau avec tous les événements en cours
-        for event in pygame.event.get():           # ces événements vont dans l'objet "event"
-            if event.type == pygame.QUIT:          # si clic sur X 
-                run = False                        # arrête la boucle
-
-            elif not game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # clic
-                pos = event.pos    
-                                                                 # position du clic de la souris
-                for signe in cases:                                                # cases = liste de chaine de caractère vide, centrées sur les cases          
-                    if  signe['signe'] == '' and signe['position'][0] - 75 < pos[0] < signe['position'][0] + 75 and signe['position'][1] - 75 < pos[1] < signe['position'][1] + 75:
-                        signe['signe'] = current_player                             # current_player = 'x'
-                        current_player = 'o' if current_player == 'x' else 'x'      # Alterne les joueurs
-                        break
-        fond_jeu()                                                                  # dessine le fond et la grille
-        draw_sign()
-        pygame.display.flip()                                                       # Affiche tout ce qui doit être affiché (est nécessaire à partir du moment on dessine quelque chose) 
-        end_game()
+    # mx, my = pygame.mouse.get_pos()                                 # position de la souris
+    # pos =(mx,my)                                                            # position du clic de la souris
+    for signe in cases:                                                # cases = liste de chaine de caractère vide, centrées sur les cases          
+        if  signe['signe'] == '' and signe['position'][0] - 75 < pos[0] < signe['position'][0] + 75 and signe['position'][1] - 75 < pos[1] < signe['position'][1] + 75:
+            signe['signe'] = current_player                             # current_player = 'x'
+            current_player = 'o' if current_player == 'x' else 'x'      # Alterne les joueurs
+            break
+    fond_jeu()                                                                  # dessine le fond et la grille
+    draw_sign()
+    pygame.display.flip()                                                       # Affiche tout ce qui doit être affiché (est nécessaire à partir du moment on dessine quelque chose) 
+    end_game()
 
 def algo_facile():
     fond_jeu()
     global run, game_over, current_player # = 'x'
-    while run:
-        for event in pygame.event.get():                                    # pour quitter la partie          
-            if event.type == pygame.QUIT:
-                run = False 
-            elif not game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # si clic
-                pos = event.pos                                             # position du clic de la souris                
-                if current_player=='x':                                     # Le joueur joue les croix               
-                    for signe in cases:                                    # cherche parmis toutes les cases
-                                                                            # La case qui correspond au clic                                          
-                        if  signe['signe']  == '' and signe['position'][0] - 75 < pos[0] < signe['position'][0] + 75 and signe['position'][1] - 75 < pos[1] < signe['position'][1] + 75:
-                            signe['signe'] = current_player                 # elle prend le signe de current_player (x)                 
-                            break                                           # arrete de chercher la case
-                    fond_jeu()
-                    draw_sign()                                             # dessine le x
-                    pygame.display.flip()                                   # Affiche tout ce qui doit l'être
-                    current_player = 'o'                                    # Passe au joueur o
-                    end_game()
-                    time.sleep(0.3)                                         # petite pause, simule un temps de reflexion
-                # current_player = 'o'  if current_player == 'x' else 'x'   # Alterne les joueurs
-                
-                # Vérifie si les coins sont disponible
-                coins_dispo = []
-                for coin in (cases[0],cases[2],cases[6],cases[8]) :
-                    if coin ['signe'] == '':
-                        coins_dispo.append (coin)
-                if coins_dispo != []:
-                    random_coin_dispo = random.choice(coins_dispo)
-                    random_coin_dispo['signe'] = current_player             # elle prend le signe o
-                    current_player = 'x'                                    # Passe au joueur x
-                   
-                #  Joue une case disponible au hasard ---------------------------------------------
-                elif coins_dispo == []:
-                    dispo = [signe for signe in cases if signe['signe'] == ''] # liste des cases disponibles   
-                    random_signe = random.choice(dispo)                     # choisi une case disponible au hasard
-                    random_signe['signe'] = current_player                  # elle prend le signe o
-                    current_player = 'x'                                    # Passe au joueur x
-                    
-                fond_jeu()
-                draw_sign()                                             # dessine le o
-                pygame.display.flip()                                   # Affiche tout ce qui doit l'être
-                end_game()
-                    
+    
+    if not game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # si clic
+        pos = event.pos                                             # position du clic de la souris                
+        if current_player=='x':                                     # Le joueur joue les croix               
+            for signe in cases:                                    # cherche parmis toutes les cases
+                                                                    # La case qui correspond au clic                                          
+                if  signe['signe']  == '' and signe['position'][0] - 75 < pos[0] < signe['position'][0] + 75 and signe['position'][1] - 75 < pos[1] < signe['position'][1] + 75:
+                    signe['signe'] = current_player                 # elle prend le signe de current_player (x)                 
+                    break                                           # arrete de chercher la case
+            fond_jeu()
+            draw_sign()                                             # dessine le x
+            pygame.display.flip()                                   # Affiche tout ce qui doit l'être
+            current_player = 'o'                                    # Passe au joueur o
+            end_game()
+            time.sleep(0.3)                                         # petite pause, simule un temps de reflexion
+        # current_player = 'o'  if current_player == 'x' else 'x'   # Alterne les joueurs
+        
+        # Vérifie si les coins sont disponible
+        coins_dispo = []
+        for coin in (cases[0],cases[2],cases[6],cases[8]) :
+            if coin ['signe'] == '':
+                coins_dispo.append (coin)
+        if coins_dispo != []:
+            random_coin_dispo = random.choice(coins_dispo)
+            random_coin_dispo['signe'] = current_player             # elle prend le signe o
+            current_player = 'x'                                    # Passe au joueur x
+            
+        #  Joue une case disponible au hasard ---------------------------------------------
+        elif coins_dispo == []:
+            dispo = [signe for signe in cases if signe['signe'] == ''] # liste des cases disponibles   
+            random_signe = random.choice(dispo)                     # choisi une case disponible au hasard
+            random_signe['signe'] = current_player                  # elle prend le signe o
+            current_player = 'x'                                    # Passe au joueur x
+            
+        fond_jeu()
+        draw_sign()                                             # dessine le o
+        pygame.display.flip()                                   # Affiche tout ce qui doit l'être
+        end_game()
+            
 def algo_difficile():                                         # A FINIR
         
     global run, game_over, current_player # = 'x'
     fond_jeu()
-    while run:
-        for event in pygame.event.get():                                    # pour quitter la partie          
-            if event.type == pygame.QUIT:
-                run = False
 
-            elif not game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # si clic
                 
-            # Le joueur joue les croix 
-                if current_player=='x':
-                    pos = event.pos                                             # position du clic de la souris                                    
-                    for signe in cases:                                    # cherche parmis toutes les cases
-                                                                            # La case qui correspond au clic                                          
-                        if  signe['signe']  == '' and signe['position'][0] - 75 < pos[0] < signe['position'][0] + 75 and signe['position'][1] - 75 < pos[1] < signe['position'][1] + 75:
-                            signe['signe'] = current_player                 # elle prend le signe de current_player (x)                 
-                            break                                           # arrete de chercher la case
+    # Le joueur joue les croix 
+    if current_player=='x':
+        pos = event.pos                                             # position du clic de la souris                                    
+        for signe in cases:                                    # cherche parmis toutes les cases
+                                                                # La case qui correspond au clic                                          
+            if  signe['signe']  == '' and signe['position'][0] - 75 < pos[0] < signe['position'][0] + 75 and signe['position'][1] - 75 < pos[1] < signe['position'][1] + 75:
+                signe['signe'] = current_player                 # elle prend le signe de current_player (x)                 
+                break                                           # arrete de chercher la case
 
-                    draw_sign()                                             # dessine le x
-                    pygame.display.flip()                                   # Affiche tout ce qui doit l'être
-                    current_player = 'o'  if current_player == 'x' else 'x'
-            end_game()
-            time.sleep(0.3)                                         # petite pause, simule un temps de reflexion
-            current_player = 'o'  if current_player == 'x' else 'x'   # Alterne les joueurs
-
-
-            # S'il y a 2 'x' dans une ligne, met un 'o' dans la case disponible
-            for row in range(0, 9, 3):
-                count = 0  
-                for case in [0, 2]:
-                    if cases[case]['signe'] == 'x':
-                        count += 1
-                        if count == 2:
-                            if cases[case]['signe'] == '':
-                                cases[case]['signe'] = current_player
-                                current_player="x"
-                                break  # Sort de la boucle interne quand deux 'x' sont trouvés
+        draw_sign()                                             # dessine le x
+        pygame.display.flip()                                   # Affiche tout ce qui doit l'être
+        current_player = 'o'  if current_player == 'x' else 'x'
+    end_game()
+    time.sleep(0.3)                                         # petite pause, simule un temps de reflexion
+    current_player = 'o'  if current_player == 'x' else 'x'   # Alterne les joueurs
 
 
-            # Vérification des colonnes, retourne le signe
-            # else:
-            #     for col in range(3):
-            #         count = 0                                                                       # col = (0,1,2)
-            #         if cases[col]['signe'] == cases[col + 3]['signe'] == cases[col + 6]['signe'] != '': # signe des cases 0,3 et 6 (colonne 1)
-            #             return cases[col]['signe']
+    # S'il y a 2 'x' dans une ligne, met un 'o' dans la case disponible
+    for row in range(0, 9, 3):
+        count = 0  
+        for case in [0, 2]:
+            if cases[case]['signe'] == 'x':
+                count += 1
+                if count == 2:
+                    if cases[case]['signe'] == '':
+                        cases[case]['signe'] = current_player
+                        current_player="x"
+                        break  # Sort de la boucle interne quand deux 'x' sont trouvés
 
 
-                else :
-                # Vérifie si les coins sont disponible
-                    coins_dispo = []
-                    for coin in (cases[0],cases[2],cases[6],cases[8]) :
-                        if coin ['signe'] == '':
-                            coins_dispo.append (coin)                  # ajoute les coins dispo à la liste
-                    if coins_dispo != []:                              # si la liste n'est pas vide
-                        random_coin_dispo = random.choice(coins_dispo) # un coin au hasard...
-                        random_coin_dispo['signe'] = current_player    # ... prend le signe o
-                        current_player = 'x'                           # Passe au joueur x
+    # Vérification des colonnes, retourne le signe
+    # else:
+    #     for col in range(3):
+    #         count = 0                                                                       # col = (0,1,2)
+    #         if cases[col]['signe'] == cases[col + 3]['signe'] == cases[col + 6]['signe'] != '': # signe des cases 0,3 et 6 (colonne 1)
+    #             return cases[col]['signe']
 
-    #  Joue une case disponible au hasard ---------------------------------------------
-                    elif coins_dispo == []:
-                        dispo = [signe for signe in cases if signe['signe'] == ''] # liste des cases disponibles   
-                        random_signe = random.choice(dispo)                     # choisi une case disponible au hasard
-                        random_signe['signe'] = current_player                  # elle prend le signe o
-                        current_player = 'x'                                    # Passe au joueur x
+
+        else :
+        # Vérifie si les coins sont disponible
+            coins_dispo = []
+            for coin in (cases[0],cases[2],cases[6],cases[8]) :
+                if coin ['signe'] == '':
+                    coins_dispo.append (coin)                  # ajoute les coins dispo à la liste
+            if coins_dispo != []:                              # si la liste n'est pas vide
+                random_coin_dispo = random.choice(coins_dispo) # un coin au hasard...
+                random_coin_dispo['signe'] = current_player    # ... prend le signe o
+                current_player = 'x'                           # Passe au joueur x
+
+#  Joue une case disponible au hasard ---------------------------------------------
+            elif coins_dispo == []:
+                dispo = [signe for signe in cases if signe['signe'] == ''] # liste des cases disponibles   
+                random_signe = random.choice(dispo)                     # choisi une case disponible au hasard
+                random_signe['signe'] = current_player                  # elle prend le signe o
+                current_player = 'x'                                    # Passe au joueur x
 
 
 
@@ -421,11 +387,46 @@ def algo_difficile():                                         # A FINIR
 
 
 #   ----------------------     BOUCLE   ----------------------------------------------
-# if launching :
-# print(board)
-# print(cases)
-# for case in board:
-#     print(case)
-menu_principal()                                    # APPEL LE MENU PRINCIPAL
+click = False
+while True:
+    mx, my = pygame.mouse.get_pos()                                 # position de la souris
+    pos =(mx,my)
+    
+    for event in pygame.event.get():                                # pour fermer de la fenêtre                           
+        if event.type == pygame.QUIT:                                   
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                click = True
+            
+        elif not game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # clic
+            pos = event.pos 
 
+        fond_menu()                                                     # affiche le fond
+        draw_text('JEU DE MORPION', title_font, (240,240,240), screen, 50,170)  # affiche un texte blanc
+        
+        button_1_joueur = pygame.Rect(200,270,200,80)                   # bouton 1
+        button_2_joueurs = pygame.Rect(200,430,200,80)                  # bouton 2
+        
+        if button_1_joueur.collidepoint( (mx,my)):                      # si bouton 1 et la souris coincident
+            pygame.draw.rect(screen, hover_color, button_1_joueur)      # dessine le bouton couleur survol
+            if click:                                                   # click sur bouton 1
+                menu_1_joueur()                                         # appel la fonction menu_1_joueur
+        else: pygame.draw.rect(screen, normal_color, button_1_joueur)   # sinon dessine le bouton couleur normale
 
+        if button_2_joueurs.collidepoint((mx,my)):                      # si bouton 2 et la souris coincident
+            pygame.draw.rect(screen, hover_color, button_2_joueurs)     # dessine le bouton couleur survol
+            if click:                                                   # click sur bouton 2                                                                                                           
+                deux_joueurs()                                          # appel la fonction deux_joueurs()                                   
+        else: pygame.draw.rect(screen, normal_color, button_2_joueurs)  # sinon dessine le bouton couleur normale
+
+        draw_text('1 joueur', button_font, (255, 255, 255), screen, 220, 295)  # affiche le texte du bouton 1
+        draw_text('2 joueurs', button_font, (255, 255, 255), screen, 220, 455) # affiche le texte du bouton 2
+    
+        pygame.display.update()
+        pygame.display.flip()
