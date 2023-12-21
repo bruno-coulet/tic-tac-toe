@@ -121,8 +121,8 @@ def check_winner(cases):    # cherche 3 'x' ou 3 'o'
         return cases[2]['signe']
     
     # grille pleine = match nul
-    if all(signe['signe'] != '' for signe in cases):     
-        return 'nul'  
+    # if all(signe['signe'] != '' for signe in cases):     
+    #     return 'nul'  
 
     return None  # Aucun gagnant pour le moment
 
@@ -133,10 +133,9 @@ def end_game():             # cherche un gagnant -> resultat -> reset_cells
     grille_pleine = all(signe['signe'] != '' for signe in cases)    # la grille pleine ?
 
     if winner or grille_pleine:             # s'il y a un gagnant ou si la grille est pleine
-
         game_over = True                                        # alors la partie est finie
                                 
-        if  grille_pleine:                                      # s'il n'y a pas de gagnant
+        if  grille_pleine and not winner:                                      # s'il n'y a pas de gagnant
             resultat = "Match nul !"                             # resultat = Match nul
         else:                                                   # sinon
             resultat = f"Joueur {winner} gagne la partie !"      # resultat = le gagnant est 'x' ou 'o'
@@ -173,7 +172,7 @@ def rejouer():
                         return
                 else:pygame.draw.rect(SCREEN, NORMAL_COLOR, button_rejouer)
 
-                draw_text('Cliquez pour rejouer', BUTTON_FONT , (255,255,255), SCREEN, 120, 380)
+                draw_text('Cliquez pour rejouer', BUTTON_FONT , (CREME), SCREEN, 120, 380)
                 pygame.display.flip()
 
 def reset_cells():          # vide les cases pour la prochaine partie
@@ -194,11 +193,12 @@ def joueur_joue():
 
 def deux_joueurs():
     global run, game_over, current_player
-    deux_joueurs_run = True
-    while deux_joueurs_run:                        # pygame.event.get() renvoie un tableau avec tous les événements en cours
+    #deux_joueurs_run = True
+    while run:                        # pygame.event.get() renvoie un tableau avec tous les événements en cours
         for event in pygame.event.get():           # ces événements vont dans l'objet "event"
             if event.type == pygame.QUIT:          # si clic sur X 
-                deux_joueurs_run = False           # arrête la boucle
+                pygame.quit()
+                #run = False           # arrête la boucle
 
             
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # clic
@@ -379,7 +379,7 @@ while run:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            run = False
+            pygame.quit()
 
     pygame.display.flip()
     fond_jeu()
