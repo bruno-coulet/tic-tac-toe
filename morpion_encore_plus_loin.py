@@ -92,20 +92,26 @@ def draw_sign():            # dessine x ou o
         ]: #pygame.draw.line(surface,    color    ,   start_pos  ,  end_pos   , width            )
             pygame.draw.line(SCREEN, line['color'], line['start'], line['end'], line['thickness'])
 
-    for signe in cases:                                                        # dessine x ou o selon le joueur
-        if signe['signe'] == 'x':
-            draw_cross(signe['position'])
-        elif signe['signe'] == 'o':
-            draw_round(signe['position'])
+    # for signe in cases:                                                        # dessine x ou o selon le joueur
+    #     if signe['signe'] == 'x':
+    #         draw_cross(signe['position'])
+    #     elif signe['signe'] == 'o':
+    #         draw_round(signe['position'])
+    for case in cases:                                                        # dessine x ou o selon le joueur
+        if case['signe'] == 'x':
+            draw_cross(case['position'])
+        elif case['signe'] == 'o':
+            draw_round(case['position'])
   
 def check_winner(cases):    # cherche 3 'x' ou 3 'o' 
-    # Vérification des lignes horizontales, retourne le signe
-    for row in range(0, 9, 3):         # row = 0 ou 3 ou 6
-        if cases[row]['signe'] == cases[row + 1]['signe'] == cases[row + 2]['signe'] != '': # non vide et identique
+    # Vérification des lignes, retourne le signe
+    for row in range(0, 9, 3): 
+        if cases[row]['signe'] == cases[row + 1]['signe'] == cases[row + 2]['signe'] != '':
+            return cases[row]['signe']             #  retourne le signe de la ligne
+    '''             # row = 0 ou 3 ou 6, non vide et identique
     #      cases [0]['signe']  == cases [1]['signe']      == cases [2]['signe']  -> signe des cases 0,1 et 2 (ligne 1)
     #      cases [3]['signe']  == cases [4]['signe']      == cases [5]['signe']  -> signe des cases 3,4 et 5 (ligne 2)
-    #      cases [6]['signe']  == cases [7]['signe']      == cases [8]['signe']  -> signe des cases 6,7 et 8 (ligne 3)
-            return cases[row]['signe']             #  retourne le signe de la ligne
+    #      cases [6]['signe']  == cases [7]['signe']      == cases [8]['signe']  -> signe des cases 6,7 et 8 (ligne 3)'''    
 
     # Vérification des colonnes, retourne le signe
     for col in range(3):                                                                       # col = (0,1,2)
@@ -119,18 +125,14 @@ def check_winner(cases):    # cherche 3 'x' ou 3 'o'
     # Vérification diagonale de droite à gauche, retourne le signe
     if cases[2]['signe'] == cases[4]['signe'] == cases[6]['signe'] != '':    # signe des cases 2,4 et 6
         return cases[2]['signe']
-    
-    # grille pleine = match nul
-    # if all(signe['signe'] != '' for signe in cases):     
-    #     return 'nul'  
 
     return None  # Aucun gagnant pour le moment
 
 def end_game():             # cherche un gagnant -> resultat -> reset_cells
     global  run, game_over
 
-    winner = check_winner(cases)                                    # un joueur gagne ?
-    grille_pleine = all(signe['signe'] != '' for signe in cases)    # la grille pleine ?
+    winner = check_winner(cases)                                    # un gagnant ?
+    grille_pleine = all(signe['signe'] != '' for signe in cases)    # grille pleine ?
 
     if winner or grille_pleine:             # s'il y a un gagnant ou si la grille est pleine
         game_over = True                                        # alors la partie est finie
@@ -143,19 +145,16 @@ def end_game():             # cherche un gagnant -> resultat -> reset_cells
         gris_transparent()
         text_resultat = BUTTON_FONT.render(resultat, True, (CREME)) # couleur et police des resultats
         SCREEN.blit(text_resultat, (WIDTH // 2 - text_resultat.get_width() // 2, HEIGHT // 2 - (text_resultat.get_height()*2) // 2)) # Dessine le texte
-        
-        pygame.display.flip()
         rejouer()
 
 def rejouer():
-    global run, game_over
-    # global run
-    # wait_for_click = True
-    # while wait_for_click:
+    global game_over, run, wait_for_click
+
     while game_over:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+                run = False
  
                 # wait_for_click = False
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -180,7 +179,6 @@ def reset_cells():          # vide les cases pour la prochaine partie
     #                                   (      x    +  largeur/2  ,     y      +   hauteur/2 )
     cases = [{'signe': '', 'position': (case[0][0] + case[1] // 2, case[0][1] + case[2] // 2)} for case in BOARD]
 
-
 def joueur_joue():
     for signe in cases:                                                # cases = liste de chaine de caractère vide, centrées sur les cases          
         if  signe['signe'] == '' and signe['position'][0] - 75 < pos[0] < signe['position'][0] + 75 and signe['position'][1] - 75 < pos[1] < signe['position'][1] + 75:
@@ -189,16 +187,13 @@ def joueur_joue():
             # current_player = 'o' if current_player == 'x' else 'x'      # Alterne les joueurs
             break
 
-    
-
 def deux_joueurs():
     global run, game_over, current_player
-    #deux_joueurs_run = True
     while run:                        # pygame.event.get() renvoie un tableau avec tous les événements en cours
         for event in pygame.event.get():           # ces événements vont dans l'objet "event"
             if event.type == pygame.QUIT:          # si clic sur X 
                 pygame.quit()
-                #run = False           # arrête la boucle
+                run = False           # arrête la boucle
 
             
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # clic
@@ -217,73 +212,71 @@ def deux_joueurs():
         end_game()
 
 def algo_facile():
-    # global run, game_over, current_player, click, pos
-
-    # if not game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # si clic
-    #     pos = event.pos                                             # position du clic de la souris  
-
-    # if current_player=='x':                                     # Le joueur joue les croix            
-    #     for signe in cases:                                     # cherche parmis toutes les cases
-    #                                                             # La case qui correspond au clic                                          
-    #         if  signe['signe']  == '' and signe['position'][0] - 75 < pos[0] < signe['position'][0] + 75 and signe['position'][1] - 75 < pos[1] < signe['position'][1] + 75:
-    #             signe['signe'] = 'x'                            # elle prend le signe de current_player (x)                 
-    #             break                                           # arrete de chercher la case
     global run, game_over, current_player
-    deux_joueurs_run = True
-    while deux_joueurs_run:                        # pygame.event.get() renvoie un tableau avec tous les événements en cours
-        for event in pygame.event.get():           # ces événements vont dans l'objet "event"
-            if event.type == pygame.QUIT:          # si clic sur X 
-                deux_joueurs_run = False           # arrête la boucle
-
-            
+    while run:
+        for event in pygame.event.get():                                    # pour quitter la partie          
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                run = False
+            # elif not game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # si clic
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # clic
                 pos = event.pos    
+          
+                if current_player=='x':                                     # Le joueur joue les croix               
+                    for signe in cases:                                    # cherche parmis toutes les cases
+                                                                            # La case qui correspond au clic                                          
+                        if  signe['signe']  == '' and signe['position'][0] - 75 < pos[0] < signe['position'][0] + 75 and signe['position'][1] - 75 < pos[1] < signe['position'][1] + 75:
+                            signe['signe'] = current_player                 # elle prend le signe de current_player (x)                 
+                            switch_player()
+                            break                                           # arrete de chercher la case
+                    fond_jeu()
+                    draw_sign()                                             # dessine le x
+                    pygame.display.update()                                   # Affiche tout ce qui doit l'être
+                    end_game()
 
-                # joueur_joue()
-                for signe in cases:                                                # cases = liste de chaine de caractère vide, centrées sur les cases          
-                    if  signe['signe'] == '' and signe['position'][0] - 75 < pos[0] < signe['position'][0] + 75 and signe['position'][1] - 75 < pos[1] < signe['position'][1] + 75:
-                        signe['signe'] = current_player                             # current_player = 'x'
-                        switch_player()
-                        # current_player = 'o' if current_player == 'x' else 'x'      # Alterne les joueurs
-                        break
-            fond_jeu()                                                                  # dessine le fond et la grille
-            draw_sign()
-            pygame.display.flip()                                                       # Affiche tout ce qui doit être affiché (est nécessaire à partir du moment on dessine quelque chose) 
-            end_game()
 
-            switch_player()
-            time.sleep(0.3)                                         # petite pause, simule un temps de reflexion
-            # current_player = 'o'  if current_player == 'x' else 'x'   # Alterne les joueurs
-            
-            # l'algo 'o'
-            #  Vérifie si les coins sont disponible
-            coins_dispo = []
-            for coin in (cases[0],cases[2],cases[6],cases[8]) :
-                if coin ['signe'] == '':
-                    coins_dispo.append (coin)
-            if coins_dispo != []:
-                random_coin_dispo = random.choice(coins_dispo)
-                random_coin_dispo['signe'] = current_player             # elle prend le signe o
-                switch_player()                                # Passe au joueur x
-                
-            #  Joue une case disponible au hasard ---------------------------------------------
-            elif coins_dispo == []:
-                dispo = [signe for signe in cases if signe['signe'] == ''] # liste des cases disponibles   
-                random_signe = random.choice(dispo)                     # choisi une case disponible au hasard
-                random_signe['signe'] = current_player                  # elle prend le signe o
-            switch_player()                                    # Passe au joueur x
-            
-    fond_jeu()
-    draw_sign()                                             # dessine le o
-    pygame.display.flip()                                   # Affiche tout ce qui doit l'être
-    end_game()
+                    time.sleep(0.3)                                         # petite pause, simule un temps de reflexion
+                    
+                    # vérifie si risque de perdre
+                    count = 0
+                    # Vérification des lignes
+                    for row in range(0, 9, 3): # row = 0 ou 3 ou 6
+                        if cases[row]['signe'] == 'x':
+                            count += 1
+                        if cases[row + 1]['signe'] == 'x':
+                            count += 1
+                        if cases[row + 2]['signe'] == 'x':
+                            count += 1
+                    if count == 2:
+                        for i in range (3):
+                            if cases [i]['signe'] == '':
+                                cases [i]['signe'] = 'o'      
+                    elif count < 2:
+                        # Vérifie si les coins sont disponible
+                        coins_dispo = []
+                        for coin in (cases[0],cases[2],cases[6],cases[8]) :
+                            if coin ['signe'] == '':
+                                coins_dispo.append (coin)
+                        if coins_dispo != []:
+                            random_coin_dispo = random.choice(coins_dispo)
+                            random_coin_dispo['signe'] = current_player             # elle prend le signe o
+                            current_player = 'x'                                    # Passe au joueur x
+                            
+                        #  Joue une case disponible au hasard ---------------------------------------------
+                        elif coins_dispo == []:
+                            dispo = [signe for signe in cases if signe['signe'] == ''] # liste des cases disponibles   
+                            random_signe = random.choice(dispo)                     # choisi une case disponible au hasard
+                            random_signe['signe'] = current_player                  # elle prend le signe o
+                            current_player = 'x'                                    # Passe au joueur x
+                        
+                    fond_jeu()
+                    draw_sign()                                             # dessine le o
+                    pygame.display.flip()                                   # Affiche tout ce qui doit l'être
+                    end_game()
             
 def algo_difficile():       
     global run, game_over, current_player, click, pos
-    fond_jeu()
-    # click = False        
-    # Le joueur joue les croix 
-    # if current_player=='x':                       
+    fond_jeu()                      
     for signe in cases:                                    # cherche parmis toutes les cases
                                                             # La case qui correspond au clic                                          
         if  signe['signe']  == '' and signe['position'][0] - 75 < pos[0] < signe['position'][0] + 75 and signe['position'][1] - 75 < pos[1] < signe['position'][1] + 75:
